@@ -154,7 +154,7 @@ class Uri
 		is_null($uri) and $uri = static::string();
 
 		// If the given uri is not a full URL
-		if( ! preg_match("#^(http|https|ftp)://#i", $uri))
+		if(! preg_match("#^(http|https|ftp)://#i", $uri ?? ''))
 		{
 			$url .= \Config::get('base_url');
 
@@ -163,7 +163,8 @@ class Uri
 				$url .= $index_file.'/';
 			}
 		}
-		$url .= ltrim($uri, '/');
+
+		! is_null($uri) and $url .= ltrim($uri, '/');
 
 		// stick a url suffix onto it if defined and needed
 		if ($url_suffix = \Config::get('url_suffix', false) and substr($url, -1) != '/')
