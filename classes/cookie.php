@@ -89,6 +89,11 @@ class Cookie
 
 		$value = \Fuel::value($value);
 
+		if(is_null($value) or is_null($domain))
+		{
+			return false;
+		}
+
 		// use the class defaults for the other parameters if not provided
 		is_null($expiration) and $expiration = static::$config['expiration'];
 		is_null($path) and $path = static::$config['path'];
