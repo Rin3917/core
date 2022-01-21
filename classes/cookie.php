@@ -31,7 +31,7 @@ class Cookie
 	protected static $config = array(
 		'expiration'            => 0,
 		'path'                  => '/',
-		'domain'                => null,
+		'domain'                => "",
 		'secure'                => false,
 		'http_only'             => false,
 		'same_site'             => null,
@@ -87,17 +87,12 @@ class Cookie
 			return false;
 		}
 
-		$value = \Fuel::value($value);
-
-		if(is_null($value) or is_null($domain))
-		{
-			return false;
-		}
+		$value = \Fuel::value($value) ?? "";
 
 		// use the class defaults for the other parameters if not provided
 		is_null($expiration) and $expiration = static::$config['expiration'];
 		is_null($path) and $path = static::$config['path'];
-		is_null($domain) and $domain = static::$config['domain'];
+		is_null($domain) and $domain = static::$config['domain'] ?? "";
 		is_null($secure) and $secure = static::$config['secure'];
 		is_null($http_only) and $http_only = static::$config['http_only'];
 		is_null($same_site) and $same_site = static::$config['same_site'];
@@ -161,6 +156,13 @@ class Cookie
 		    return setcookie($name, "", -86400, "{$path}; samesite={$same_site}", $domain, $secure, $http_only);
 		}
 
-		return setcookie($name, "", array('expires' => -86400, 'path' => $path, 'domain' => $domain, 'samesite' => $same_site, 'secure' => $secure,'httponly' => $http_only));
+		return setcookie($name, "", array(
+		    'expires' => -86400,
+		    'path' => $path,
+		    'domain' => $domain,
+		    'samesite' => $same_site,
+		    'secure' => $secure,
+		    'httponly' => $http_only,
+		));
 	}
 }

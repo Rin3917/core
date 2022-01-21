@@ -200,7 +200,6 @@ abstract class Controller_Rest extends \Controller
 
 		// make sure we have a valid return status
 		$http_status or $http_status = $this->http_status;
-
 		// If the format method exists, call and return the output in that format
 		if (method_exists('Format', 'to_'.$this->format))
 		{
@@ -210,7 +209,7 @@ abstract class Controller_Rest extends \Controller
 				// Detect basenode
 				$xml_basenode = $this->xml_basenode;
 				$xml_basenode or $xml_basenode = \Config::get('rest.xml_basenode', 'xml');
-
+				
 				// Set the XML response
 				$this->response->body(\Format::forge($data)->{'to_'.$this->format}(null, null, $xml_basenode));
 			}
@@ -244,7 +243,7 @@ abstract class Controller_Rest extends \Controller
 		{
 			$this->response->body($data);
 		}
-
+		
 		// Set the reponse http status
 		$http_status and $this->response->status = $http_status;
 

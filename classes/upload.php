@@ -226,13 +226,14 @@ class Upload
 		is_string($index) and $index = str_replace(':', '.', $index);
 
 		$files = static::$upload->getInvalidFiles($index);
-
 		// convert the file object to 1.x compatible data
 		$result = array();
-
+		
 		foreach ($files as $file)
 		{
 			$data = array();
+			$lc = 0;
+
 			foreach ($file as $item => $value)
 			{
 				// swap item names for BC
@@ -242,6 +243,7 @@ class Upload
 				$item == 'path' and $item = 'saved_to';
 				$data[$item] = $value;
 			}
+
 			$data['field'] = str_replace('.', ':', $data['field']);
 			$data['error'] = ! $file->isValid();
 			$data['errors'] = array();

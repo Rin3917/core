@@ -333,11 +333,13 @@ $memoryUsed = $output['memoryTotals']['used'];
 $queryCount = $output['queryTotals']['count'];
 $speedTotal = $output['speedTotals']['total'];
 
+$count = 0;
 $printarray = function($items, $depth, &$class, &$count) use(&$printarray)
 {
 	$output = '';
+
 	foreach($items as $item => $value) {
-		$count++;
+
 		$output .='<tr><td class="'.$class.'">';
 		if (is_bool($value))
 		{
@@ -351,10 +353,13 @@ $printarray = function($items, $depth, &$class, &$count) use(&$printarray)
 		{
 			$output .= '<b>'.\Security::htmlentities($value).'</b>';
 		}
+
 		$output .= str_repeat('&rsaquo;&nbsp;', $depth).\Security::htmlentities($item).'</td></tr>';
 		if($class == '') $class = 'pqp-alt'; else $class = '';
+
 		is_array($value) and $output .= $printarray($value, $depth + 1, $class, $count);
-		is_object($value) and $output .= $printarray($value, $depth + 1, $class, $count);
+		//is_object($value) and $output .= $printarray($value, $depth + 1, $class, $count);
+		
 	}
 	return $output;
 };
@@ -463,6 +468,7 @@ else {
 
 		$return_output .='</table></div>';
 }
+
 
 $return_output .='</div>';
 

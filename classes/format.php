@@ -107,6 +107,11 @@ class Format
 			return array();
 		}
 
+		if (\Package::loaded('orm') and $data instanceof \Orm\Model) 
+		{
+			return $data->to_array();
+		}
+
 		foreach ($data as $key => $value)
 		{
 			if (is_object($value) or is_array($value))
@@ -303,7 +308,7 @@ class Format
 		{
 			$data = $this->_data;
 		}
-
+		
 		// To allow exporting ArrayAccess objects like Orm\Model instances they need to be
 		// converted to an array first
 		$data = (is_array($data) or is_object($data)) ? $this->to_array($data) : $data;
