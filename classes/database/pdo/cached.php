@@ -87,10 +87,12 @@ class Database_PDO_Cached extends \Database_Result implements \SeekableIterator,
 	{
 		if ( ! $this->offsetExists($offset))
 		{
-			//return false;
+			return false;
 		}
 
 		$this->_current_row = $offset;
+
+		return true;
 	}
 
 	/**************************
@@ -137,6 +139,8 @@ class Database_PDO_Cached extends \Database_Result implements \SeekableIterator,
 
 		// sanitize the data if needed
 		$this->_sanitizate();
+
+		return $this->_row;
 	}
 
 	/**************************
