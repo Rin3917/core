@@ -233,6 +233,7 @@ class Cache_Storage_Redis extends \Cache_Storage_Driver
 	protected function unprep_contents($payload)
 	{
 		$properties_end = strpos($payload, '{{/'.static::PROPS_TAG.'}}');
+
 		if ($properties_end === FALSE)
 		{
 			throw new \UnexpectedValueException('Cache has bad formatting');
@@ -241,6 +242,7 @@ class Cache_Storage_Redis extends \Cache_Storage_Driver
 		$this->contents = substr($payload, $properties_end + strlen('{{/'.static::PROPS_TAG.'}}'));
 		$props = substr(substr($payload, 0, $properties_end), strlen('{{'.static::PROPS_TAG.'}}'));
 		$props = json_decode($props, true);
+
 		if ($props === NULL)
 		{
 			throw new \UnexpectedValueException('Cache properties retrieval failed');
@@ -287,6 +289,11 @@ class Cache_Storage_Redis extends \Cache_Storage_Driver
 
 		// fetch the cache data from the redis server
 		$payload = static::$redis->get($key);
+
+		if(empty($payload))
+		{
+			return false;
+		}
 		try
 		{
 			$this->unprep_contents($payload);
