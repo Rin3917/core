@@ -148,13 +148,13 @@ class Uri
 	 * @param   bool    $secure         If false, force http. If true, force https
 	 * @return  string
 	 */
-	public static function create($uri = null, $variables = array(), $get_variables = array(), $secure = null)
+	public static function create($uri = '', $variables = array(), $get_variables = array(), $secure = null)
 	{
 		$url = '';
 		is_null($uri) and $uri = static::string();
 
 		// If the given uri is not a full URL
-		if(! preg_match("#^(http|https|ftp)://#i", $uri ?? ''))
+		if(! preg_match("#^(http|https|ftp)://#i", $uri))
 		{
 			$url .= \Config::get('base_url');
 
