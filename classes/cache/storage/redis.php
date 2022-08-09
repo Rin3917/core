@@ -290,10 +290,11 @@ class Cache_Storage_Redis extends \Cache_Storage_Driver
 		// fetch the cache data from the redis server
 		$payload = static::$redis->get($key);
 
-		if(empty($payload))
+		if (empty($payload))
 		{
 			return false;
 		}
+		
 		try
 		{
 			$this->unprep_contents($payload);
